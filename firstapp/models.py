@@ -13,6 +13,27 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name
 
+    @classmethod
+    def updateprice(cls, product_id,price):
+        product = cls.objects.filter(product_id = product_id)
+        product = product.first()
+        product.price = price
+        product.save()
+        return product
+
+    @classmethod
+    def create(cls, product_name,price):
+        product = Product(product_name = product_name, price = price)
+        product.save()
+        return product
+
+    @staticmethod
+    def a_static_method():
+        """
+          A static method has no information about instances or classes unless explicitly given, it just lives in the class (and thus its instances)
+        """
+    def __str__(self):
+        return self.product_name
 
 class Cart(models.Model):
     card_id = models.AutoField(primary_key=True)
