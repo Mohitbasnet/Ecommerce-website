@@ -27,19 +27,27 @@ class Product(models.Model):
         product.save()
         return product
 
-    @staticmethod
-    def a_static_method():
-        """
-          A static method has no information about instances or classes unless explicitly given, it just lives in the class (and thus its instances)
-        """
+    # @staticmethod
+    # def a_static_method():
+    #     """
+    #       A static method has no information about instances or classes unless explicitly given, it just lives in the class (and thus its instances)
+    #     """
     def __str__(self):
         return self.product_name
+
+# Customizing cart unsing custom manager
+class CartManager(models.Manager):
+    def create_cart(self,user):
+         cart = self.create(user = user)
+        # You can perform more operations
+         return cart
 
 class Cart(models.Model):
     card_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     created_on= models.DateTimeField()
 
+    objects = CartManager()
 class ProductInCart(models.Model):
     product_in_card_id = models.AutoField(primary_key = True)
     cart = models.ForeignKey(Cart, on_delete = models.CASCADE)
