@@ -44,7 +44,7 @@ class CartManager(models.Manager):
 
 class Cart(models.Model):
     card_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
     created_on= models.DateTimeField()
 
     objects = CartManager()
@@ -67,3 +67,7 @@ class Order(models.Model):
     )
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     status = models.IntegerField(choices = status_choices, default = 1)
+
+class Deal(models.Model):
+    user = models.ManyToManyField(User)
+    deal_name = models.CharField(max_length = 255)
