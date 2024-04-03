@@ -1,9 +1,32 @@
 from django.db import models
 
 # Create your models here.
-
+from django.utils import timezone
 
 from django.contrib.auth.models import User
+
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser
+
+from django.utils.translation import gettext_lazy as _ #this is used to translate string into different languages
+
+from . managers import CustomUserManager
+
+from django.contrib.auth.models import PermissionsMixin
+
+class CustomUser(AbstractBaseUser,PermissionsMixin):
+    # username = None
+    email = models.EmailField(_('email address'), unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [ ]
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key =True)
@@ -44,7 +67,7 @@ class CartManager(models.Manager):
 
 class Cart(models.Model):
     card_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
     created_on= models.DateTimeField()
 
     objects = CartManager()
@@ -65,9 +88,9 @@ class Order(models.Model):
         (3,'Shipped'),
         (4,'Delivered')
     )
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     status = models.IntegerField(choices = status_choices, default = 1)
 
 class Deal(models.Model):
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(CustomUser)
     deal_name = models.CharField(max_length = 255)
