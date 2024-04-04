@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Product,Cart,ProductInCart,Order,Deal
+from . models import Product,Cart,ProductInCart,Order,Deal,Customer,Seller
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -25,8 +25,8 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'is_staff', 'is_active',)
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
-        (None, {'fields': ('email',  'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser',)}),   #'is_customer' , 'is_seller'
+        (None, {'fields': ('email',  'password',)}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser','is_customer','is_seller')}),   #'is_customer' , 'is_seller'
     )
     add_fieldsets = (
         (None, {
@@ -109,3 +109,5 @@ admin.site.register(Product)
 
 admin.site.register(ProductInCart)
 admin.site.register(Order)
+admin.site.register(Customer)
+admin.site.register(Seller)
