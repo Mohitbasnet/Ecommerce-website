@@ -15,3 +15,6 @@ class Index(TemplateView):
         arr = ['adksk', 'gasdgas', 'agdsgads']
         context = {'age': age, 'array': arr}
         return context
+
+def contactus(request):
+    return render(request, 'firstapp/contactus.html')
