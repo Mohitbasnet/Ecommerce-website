@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 # def index(request):
 #     return render(request,'firstapp/index.html')
     
-
+from . forms import ContactUsForm
 class Index(TemplateView):
     template_name='firstapp/index.html'
     def get_context_data(self,**kwargs):
@@ -42,3 +42,5 @@ def contactus2(request):
                 form.errors['__all__'] = 'Query length is not right. It should be in 10 digits.'
             return render(request, 'firstapp/contactus2.html', {'form':form})
     return render(request, 'firstapp/contactus2.html', {'form':ContactUsForm})
+
+

@@ -13,7 +13,7 @@ from . managers import CustomUserManager
 
 from django.contrib.auth.models import PermissionsMixin
 
-
+from django.core.validators import RegexValidator
 # class UserType(models.Model):
 #     CUSTOMER = 1
 #     SELLER = 2
@@ -130,3 +130,14 @@ class Order(models.Model):
 class Deal(models.Model):
     user = models.ManyToManyField(CustomUser)
     deal_name = models.CharField(max_length = 255)
+
+
+class Contact(models.Model):
+    email = models.EmailField()
+    name = models.CharField(max_length=5)
+    
+    phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
+    phone = models.CharField(max_length=255,  validators=[phone_regex])
+    query = models.TextField()
+
+    # REQUIRE

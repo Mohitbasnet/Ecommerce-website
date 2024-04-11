@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Product,Cart,ProductInCart,Order,Deal,Customer,Seller
+from . models import Product,Cart,ProductInCart,Order,Deal,Customer,Seller,Contact
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -111,3 +111,4 @@ admin.site.register(ProductInCart)
 admin.site.register(Order)
 admin.site.register(Customer)
 admin.site.register(Seller)
+admin.site.register(Contact)
