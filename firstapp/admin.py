@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Product,Cart,ProductInCart,Order,Deal,Customer,Seller,Contact
+from . models import Product,Cart,ProductInCart,Order,Deal,Customer,Seller,Contact,SellerAdditional
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from . models import CustomUser
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+
+class SellerAdditionalInline(admin.TabularInline):
+    model = SellerAdditional
 
 class CartInline(admin.TabularInline):
     model = Cart  #onetoonefield foreign key
@@ -102,7 +105,10 @@ class DealAdmin(admin.ModelAdmin):
     
     exclude = ('user',)
 
-
+class SellerAdmin(admin.ModelAdmin):
+    inlines = (
+        SellerAdditionalInline,
+    )
 
 # admin.site.register(User,UserAdmin)
 admin.site.register(Product)
@@ -110,5 +116,6 @@ admin.site.register(Product)
 admin.site.register(ProductInCart)
 admin.site.register(Order)
 admin.site.register(Customer)
-admin.site.register(Seller)
+admin.site.register(Seller,SellerAdmin)
 admin.site.register(Contact)
+admin.site.register(SellerAdditional)

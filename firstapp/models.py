@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Q
 # Create your models here.
 from django.utils import timezone
 
@@ -65,8 +65,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
     default_type = Types.CUSTOMER
 
-    #type = models.CharField(_('Type'), max_length=255, choices=Types.choices, default=default_type)
-    type = MultiSelectField(choices=Types.choices, default=[], null=True, blank=True, max_length = 255)
+    type = models.CharField(_('Type'), max_length=255, choices=Types.choices, default=default_type)
+    # type = MultiSelectField(choices=Types.choices, default=[], null=True, blank=True, max_length = 255)
 
 
     USERNAME_FIELD = 'email'
@@ -78,8 +78,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
         return self.email
     def save(self, *args, **kwargs):
         if not self.id:
-            #self.type = self.default_type
-            self.type.append(self.default_type)
+            self.type = self.default_type
+            # self.type.append(self.default_type)
         return super().save(*args, **kwargs)
 
 
