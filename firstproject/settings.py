@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
 
     'firstapp',
+    'multiselectfield',
 
 ]
 AUTH_USER_MODEL = 'firstapp.CustomUser'
