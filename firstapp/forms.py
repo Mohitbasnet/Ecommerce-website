@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from . models import Contact
-from .models import CustomUser
+from .models import CustomUser,Seller
 from django import forms
 from django.core.validators import RegexValidator
 from django import forms
@@ -31,4 +31,15 @@ class ContactUsForm(forms.ModelForm):
             'phone',
             'query',
             'name'
+        ]
+
+
+class RegistrationForm(UserCreationForm):
+    class Meta:
+        model = Seller
+        fields = [
+            'email',
+            'name',
+            'password1',
+            'password2',
         ]

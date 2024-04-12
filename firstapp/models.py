@@ -14,6 +14,12 @@ from . managers import CustomUserManager
 from django.contrib.auth.models import PermissionsMixin
 
 from django.core.validators import RegexValidator
+
+
+from multiselectfield import MultiSelectField
+
+
+
 # class UserType(models.Model):
 #     CUSTOMER = 1
 #     SELLER = 2
@@ -30,6 +36,7 @@ from django.core.validators import RegexValidator
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     # username = None
     email = models.EmailField(_('email address'), unique=True)
+    name = models.CharField(max_length = 255)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -45,6 +52,23 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
     # user_type = models.IntegerField(choices = type, default = 1)
     # usertype = models.ManyToManyField(UserType)
+
+    class Types(models.TextChoices):
+        SELLER = "Seller", "SELLER"
+        CUSTOMER = "Customer", "CUSTOMER"
+    
+    # Types = (
+    #     (1, 'SELLER'),
+    #     (2, 'CUSTOMER')
+    # )
+    # type = models.IntegerField(choices=Types, default=2)
+
+    default_type = Types.CUSTOMER
+
+    #type = models.CharField(_('Type'), max_length=255, choices=Types.choices, default=default_type)
+    type = MultiSelectField(choices=Types.choices, default=[], null=True, blank=True, max_length = 255)
+
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [ ]
 
@@ -52,6 +76,11 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.email
+    def save(self, *args, **kwargs):
+        if not self.id:
+            #self.type = self.default_type
+            self.type.append(self.default_type)
+        return super().save(*args, **kwargs)
 
 
 # For more fields we user two classes
@@ -59,10 +88,45 @@ class Customer(models.Model):
     user = models.OneToOneField(CustomUser, on_delete= models.CASCADE)
     address = models.CharField(max_length = 255)
 
+class CustomerAdditional(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    address = models.CharField(max_length=1000)
+
+
+class SellerAdditional(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete = models.CASCADE)
+    gst = models.CharField(max_length=10)
+    warehouse_location = models.CharField(max_length=1000)
+
+
 class Seller(models.Model):
     user = models.OneToOneField(CustomUser , on_delete= models.CASCADE)
     gst = models.CharField(max_length = 255)
     warehouse_location = models.CharField(max_length=255)
+
+class SellerManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        #return super().get_queryset(*args, **kwargs).filter(type = CustomUser.Types.SELLER)
+        return super().get_queryset(*args, **kwargs).filter(Q(type__contains = CustomUser.Types.SELLER))
+# Proxy Models. They do not create a seperate table
+class Seller(CustomUser):
+    default_type = CustomUser.Types.SELLER
+    objects = SellerManager()
+    class Meta:
+        proxy = True
+    
+    def sell(self):
+        print("I can sell")
+
+    @property
+    def showAdditional(self):
+        return self.selleradditional
+
+class CustomerManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        #return super().get_queryset(*args, **kwargs).filter(type = CustomUser.Types.CUSTOMER)
+        return super().get_queryset(*args, **kwargs).filter(Q(type__contains = CustomUser.Types.CUSTOMER))
+
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key =True)
@@ -100,6 +164,7 @@ class CartManager(models.Manager):
          cart = self.create(user = user)
         # You can perform more operations
          return cart
+
 
 class Cart(models.Model):
     card_id = models.AutoField(primary_key=True)
