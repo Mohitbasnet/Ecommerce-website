@@ -65,12 +65,12 @@
       <label for="id_password2" class="login-labels">Password Confirmation*</label> 
       {{ form.password2.errors }}
       {{ form.password2|addclass:'form-control'|addplaceholder:'Your Password' }}
-      {% comment %} <label for="id_gst" class="login-labels">GST*</label> 
+      <label for="id_gst" class="login-labels">GST*</label> 
       {{ form.gst.errors }}
       {{ form.gst|addclass:'form-control'|addplaceholder:'GST' }}
       <label for="id_warehouse_location" class="login-labels">Warehouse Location*</label> 
       {{ form.warehouse_location.errors }}
-      {{ form.warehouse_location|addclass:'form-control'|addplaceholder:'Warehouse Location' }} {% endcomment %}
+      {{ form.warehouse_location|addclass:'form-control'|addplaceholder:'Warehouse Location' }}
       <br>
 <button type="submit" class="btn btn-primary btn-lg signup-button">Signup</button>
 </form>
