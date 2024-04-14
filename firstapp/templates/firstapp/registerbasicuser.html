@@ -1,4 +1,3 @@
-{% extends 'firstapp/basic.html'%}
 {% extends 'firstapp/basic.html' %}
 {% load static %}
 {% load myfilters %}
@@ -47,20 +46,29 @@
 {% endblock %}
 
 {% block body%}
+
 <form method="POST">{% csrf_token %}
 <div class="main-area">
 <div class="register-form">
-{{ form.non_field_errors }}
+
       <h2 class="mainheading">Wonder Shop</h2>
-      <h4 class="mainheading">Login</h4>
-      <label for="id_username" class="login-labels">Email Address*</label> 
-      {{ form.username.errors }}
-      {{ form.username|addclass:'form-control'|addplaceholder:'Email Address'}}
-      <label for="id_password" class="login-labels">Password*</label> 
-      {{ form.password.errors }}
-      {{ form.password|addclass:'form-control'|addplaceholder:'Your Password' }}
+      <h4 class="mainheading">Sign Up</h4>
+      <p class="errorlist">{{ form.non_field_errors }}</p>
+      <label for="id_email" class="login-labels">Email Address*</label> 
+      {{ form.email.errors }}
+      {{ form.email|addclass:'form-control'|addplaceholder:'Email Address'}}
+      
+      <label for="id_name" class="login-labels">Name*</label> 
+      {{ form.name.errors }}
+      {{ form.name|addclass:'form-control'|addplaceholder:'Your Name' }}
+      <label for="id_password1" class="login-labels">Password*</label> 
+      {{ form.password1.errors }}
+      {{ form.password1|addclass:'form-control'|addplaceholder:'Your Password' }}
+      <label for="id_password2" class="login-labels">Password Confirmation*</label> 
+      {{ form.password2.errors }}
+      {{ form.password2|addclass:'form-control'|addplaceholder:'Your Password' }}
       <br>
-<button type="submit" class="btn btn-primary btn-lg signup-button">Login</button>
+<button type="submit" class="btn btn-primary btn-lg signup-button">Signup</button>
 </form>
 </div>
 </div>

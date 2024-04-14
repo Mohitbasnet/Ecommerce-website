@@ -1,4 +1,3 @@
-{% extends 'firstapp/basic.html'%}
 {% extends 'firstapp/basic.html' %}
 {% load static %}
 {% load myfilters %}
@@ -52,15 +51,15 @@
 <div class="register-form">
 {{ form.non_field_errors }}
       <h2 class="mainheading">Wonder Shop</h2>
-      <h4 class="mainheading">Login</h4>
-      <label for="id_username" class="login-labels">Email Address*</label> 
-      {{ form.username.errors }}
-      {{ form.username|addclass:'form-control'|addplaceholder:'Email Address'}}
-      <label for="id_password" class="login-labels">Password*</label> 
-      {{ form.password.errors }}
-      {{ form.password|addclass:'form-control'|addplaceholder:'Your Password' }}
+      <h4 class="mainheading">Sign Up For Seller</h4>
+      <label for="id_gst" class="login-labels">GST*</label> 
+      {{ form.gst.errors }}
+      {{ form.gst|addclass:'form-control'|addplaceholder:'GST' }}
+      <label for="id_warehouse_location" class="login-labels">Warehouse Location*</label> 
+      {{ form.warehouse_location.errors }}
+      {{ form.warehouse_location|addclass:'form-control'|addplaceholder:'Warehouse Location' }}
       <br>
-<button type="submit" class="btn btn-primary btn-lg signup-button">Login</button>
+<button type="submit" class="btn btn-primary btn-lg signup-button">Signup</button>
 </form>
 </div>
 </div>

@@ -3,13 +3,13 @@ from django.shortcuts import render,HttpResponse
 from django.views.generic import TemplateView,FormView,CreateView
 
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.views import LoginView, LogoutView
 
 from django.urls import reverse_lazy, reverse
 # def index(request):
 #     return render(request,'firstapp/index.html')
 from . models import SellerAdditional,CustomUser   
-from . forms import ContactUsForm,RegistrationForm
+from . forms import ContactUsForm,RegistrationFormSeller,RegistrationForm
 class Index(TemplateView):
     template_name='firstapp/index.html'
     def get_context_data(self,**kwargs):
@@ -69,21 +69,32 @@ class ContanctUs(FormView):
         
 
 
+# class RegisterViewSeller(CreateView):
+#     template_name = 'firstapp/register.html'
+#     form_class = RegistrationForm
+#     success_url = reverse_lazy('index')
+
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         if response.status_code == 302:
+#             gst = request.POST.get('gst')
+#             warehouse_location = request.POST.get('warehouse_location')
+#             user = CustomUser.objects.get(email = request.POST.get('email'))
+#             s_add = SellerAdditional.objects.create(user = user, gst = gst , warehouse_location= warehouse_location)
+#             return response
+#         else:
+#             return response
+            
 class RegisterView(CreateView):
-    template_name = 'firstapp/register.html'
+    template_name = 'firstapp/registerbasicuser.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('index')
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 302:
-            gst = request.POST.get('gst')
-            warehouse_location = request.POST.get('warehouse_location')
-            user = CustomUser.objects.get(email = request.POST.get('email'))
-            s_add = SellerAdditional.objects.create(user = user, gst = gst , warehouse_location= warehouse_location)
-            return response
-        else:
-            return response
-            
+
+class LoginViewUser(LoginView):
+    template_name = 'firstapp/login.html'
 
 
+class RegisterViewSeller(CreateView):
+    template_name = 'firstapp/registerseller.html'
+    # form_class = 
