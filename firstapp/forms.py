@@ -35,9 +35,19 @@ class ContactUsForm(forms.ModelForm):
 
 
 class RegistrationForm(UserCreationForm):
-    gst = forms.CharField(max_length=10)
-    warehouse_location = forms.CharField(max_length = 255)
+    class Meta:
+        model = Seller
+        fields = [
+            'email',
+            'name',
+            'password1',
+            'password2',
+            
+        ]
 
+class RegistrationFormSeller(UserCreationForm):
+    gst = forms.CharField(max_length=10)
+    warehouse_location = forms.CharField(max_length=1000)
     class Meta:
         model = Seller
         fields = [
