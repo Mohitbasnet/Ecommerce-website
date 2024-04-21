@@ -9,7 +9,9 @@ from django.urls import reverse_lazy, reverse
 # def index(request):
 #     return render(request,'firstapp/index.html')
 from . models import SellerAdditional,CustomUser   
-from . forms import ContactUsForm,RegistrationFormSeller,RegistrationForm
+from . forms import ContactUsForm,RegistrationFormSeller,RegistrationForm,RegistrationFormSeller2
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 class Index(TemplateView):
     template_name='firstapp/index.html'
     def get_context_data(self,**kwargs):
@@ -95,6 +97,17 @@ class LoginViewUser(LoginView):
     template_name = 'firstapp/login.html'
 
 
-class RegisterViewSeller(CreateView):
+class RegisterViewSeller(LoginRequiredMixin, CreateView):
     template_name = 'firstapp/registerseller.html'
-    # form_class = 
+    form_class = RegistrationFormSeller2
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.type.append(user.Types.SELLER)
+        user.save()
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class LogoutViewUser(LogoutView):
+    success_url = reverse_lazy('index')

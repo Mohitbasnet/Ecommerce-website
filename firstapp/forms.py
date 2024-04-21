@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from . models import Contact
-from .models import CustomUser,Seller
+from .models import CustomUser,Seller,SellerAdditional
 from django import forms
 from django.core.validators import RegexValidator
 from django import forms
@@ -55,6 +55,13 @@ class RegistrationFormSeller(UserCreationForm):
             'name',
             'password1',
             'password2',
+            'gst',
+            'warehouse_location'
+        ]
+class RegistrationFormSeller2(forms.ModelForm):
+    class Meta:
+        model = SellerAdditional
+        fields = [
             'gst',
             'warehouse_location'
         ]
