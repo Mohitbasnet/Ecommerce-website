@@ -33,9 +33,24 @@ from multiselectfield import MultiSelectField
 #         return self.get_id_display()
 
 
+class LowercaseEmailField(models.EmailField):
+    """
+    Override EmailField to convert emails to lowercase before saving.
+    """
+    def to_python(self, value):
+        """
+        Convert email to lowercase.
+        """
+        value = super(LowercaseEmailField, self).to_python(value)
+        # Value can be None so check that it's a string before lowercasing.
+        if isinstance(value, str):
+            return value.lower()
+        return value
+
+
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     # username = None
-    email = models.EmailField(_('email address'), unique=True)
+    email = LowercaseEmailField(_('email address'), unique=True)
     name = models.CharField(max_length = 255)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -204,5 +219,3 @@ class Contact(models.Model):
     phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
     phone = models.CharField(max_length=255,  validators=[phone_regex])
     query = models.TextField()
-
-    # REQUIRE
