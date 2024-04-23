@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+&7r57j@9=t9tzda(&azir$0!^um)pk17&0(6+vz1f1chyo9k&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.wondershop.in','services.wondershop.in']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'firstapp',
     'multiselectfield',
+    'seller',
 
 ]
 AUTH_USER_MODEL = 'firstapp.CustomUser'
