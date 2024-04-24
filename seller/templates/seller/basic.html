@@ -68,7 +68,10 @@
                         <li><a class="dropdown-item" href="{% host_url 'signup' host 'services' %}">Singup</a></li>
                         
                         <li><a class="dropdown-item" href="{% host_url 'login' host 'services' %}">Login</a></li>
-                        <li><a class="dropdown-item" href="{% host_url 'logout' host 'services' %}">Logout</a></li>
+                        <form action="{% url 'logout' %}" method="post" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item logout-btn">Logout</button>
+                        </form>
                         
                     </ul>
             </div>
