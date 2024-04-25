@@ -22,7 +22,7 @@ class RegisterViewSeller(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        user.type.append(user.Types.SELLER)
+        # user.type.append(user.Types.SELLER)
         user.save()
         form.instance.user = self.request.user
         return super().form_valid(form)
