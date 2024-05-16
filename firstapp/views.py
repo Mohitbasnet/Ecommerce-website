@@ -176,3 +176,19 @@ class RegisterView(CreateView):
                 return self.render_to_response({'form':form})
         else:
             return response
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist) as e:
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request, "Successfully Logged In")
+        return redirect(reverse_lazy('index'))
+        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid or your account is already Verified! Try To Login')
